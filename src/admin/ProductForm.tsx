@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import type { AdminCategory, AdminProduct, MediaAsset } from '@shared/types';
 import { formatPrice, STOCK_STATE_META } from '@shared/format';
-import { imageVariant } from '@shared/images';
+import { productImageFallback, imageVariant } from '@shared/images';
 import { computeStockState } from '@shared/stock';
 import { adminApi, ApiError } from '../lib/api';
 import { useApi } from '../lib/useApi';
@@ -464,7 +464,7 @@ export function ProductForm() {
               <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {images.map((img, index) => (
                   <li key={`${img.base}-${index}`} className="group relative overflow-hidden rounded-xl border border-line bg-cream-100">
-                    <img src={imageVariant(img.path, 480)} alt="" className="aspect-[4/5] w-full object-cover" width={160} height={200} />
+                    <img onError={productImageFallback} src={imageVariant(img.path, 480)} alt="" className="aspect-[4/5] w-full object-cover" width={160} height={200} />
                     {img.isPrimary && (
                       <span className="absolute left-2 top-2 rounded-full bg-ink px-2 py-0.5 text-[0.625rem] font-medium text-cream-50">Principale</span>
                     )}
@@ -708,7 +708,7 @@ export function ProductForm() {
             <h2 className="text-lg">Aperçu rapide</h2>
             <div className="mt-3 flex gap-3">
               <div className="h-24 w-20 shrink-0 overflow-hidden rounded-lg bg-cream-200">
-                {primary ? <img src={imageVariant(primary.path, 480)} alt="" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-[0.65rem] text-ink-500">Aucune photo</div>}
+                {primary ? <img onError={productImageFallback} src={imageVariant(primary.path, 480)} alt="" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-[0.65rem] text-ink-500">Aucune photo</div>}
               </div>
               <div className="min-w-0 text-sm">
                 <p className="truncate font-medium text-ink">{form.name || 'Nom du produit'}</p>
@@ -767,7 +767,7 @@ export function ProductForm() {
         </p>
         <div className="grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
           <div className="overflow-hidden rounded-xl bg-cream-200">
-            {primary ? <img src={imageVariant(primary.path, 960)} alt="" className="aspect-[4/5] w-full object-cover" /> : <div className="flex aspect-[4/5] items-center justify-center text-xs text-ink-500">Aucune photo</div>}
+            {primary ? <img onError={productImageFallback} src={imageVariant(primary.path, 960)} alt="" className="aspect-[4/5] w-full object-cover" /> : <div className="flex aspect-[4/5] items-center justify-center text-xs text-ink-500">Aucune photo</div>}
           </div>
           <div>
             <p className="text-2xs uppercase tracking-eyebrow text-ink-500">{categoryName}</p>

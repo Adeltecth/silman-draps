@@ -49,6 +49,9 @@ export async function api<T>(path: string, options: RequestOptions = {}): Promis
     const message = (payload as { error?: string } | null)?.error ?? `Une erreur est survenue (code ${response.status}).`;
     throw new ApiError(message, response.status, (payload as { fields?: Record<string, string> } | null)?.fields ?? {});
   }
+  if (!isJson || payload === null) {
+    throw new ApiError('Le serveur du catalogue est indisponible. Contactez Silima Shop sur WhatsApp.', 502);
+  }
   return payload as T;
 }
 

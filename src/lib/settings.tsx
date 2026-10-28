@@ -5,7 +5,7 @@ import type { PublicSettings } from '@shared/types';
 const FALLBACK: PublicSettings = {
   businessName: 'Silima Shop',
   logoUrl: null,
-  whatsappNumber: '',
+  whatsappNumber: '2250788880307',
   phone: '',
   email: '',
   location: '',

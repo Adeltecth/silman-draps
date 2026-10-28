@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import type { PublicProduct } from '@shared/types';
 import { formatPrice } from '@shared/format';
 import { productEnquiryMessage } from '@shared/whatsapp';
-import { primaryImage, imageVariant } from '@shared/images';
+import { productImageFallback, primaryImage, imageVariant } from '@shared/images';
 import { canEnquire, canOrder } from '@shared/stock';
 import { useSettings } from '../lib/settings';
 import { StockBadge } from './StockBadge';
@@ -18,13 +18,15 @@ export function productAbsoluteUrl(slug: string): string {
   return `${window.location.origin}${productUrl(slug)}`;
 }
 
-export function buildProductMessage(product: PublicProduct, businessName: string, quantity = 1) {
+export function buildProductMessage(product: PublicProduct, businessName: string, quantity = 1, currency = 'XOF') {
   return productEnquiryMessage({
     businessName,
     productName: product.name,
     reference: product.reference,
     quantity,
     url: productAbsoluteUrl(product.slug),
+    price: formatPrice(product.price, currency),
+    details: [...(product.sizes.length === 1 ? product.sizes : []), ...product.options.filter(o => o.values.length === 1).map(o => `${o.label} : ${o.values[0]}`)].join(' · '),
     priceKnown: product.price !== null,
   });
 }
@@ -47,7 +49,7 @@ export function ProductCard({ product, priority = false, compact = false }: Prod
       <div className="relative overflow-hidden rounded-2xl border border-line bg-cream-200">
         <Link to={link} aria-label={`Voir ${product.name}`} className="block focus-visible:outline-offset-4">
           {image ? (
-            <img
+            <img onError={productImageFallback}
               src={imageVariant(image.path, 480)}
               srcSet={`${imageVariant(image.path, 480)} 480w, ${imageVariant(image.path, 960)} 960w`}
               sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 92vw"
@@ -103,7 +105,7 @@ export function ProductCard({ product, priority = false, compact = false }: Prod
           </Link>
           {orderable || canEnquire(product.stockState, product.allowEnquiryWhenOutOfStock) ? (
             <WhatsAppCta
-              message={buildProductMessage(product, settings.businessName)}
+              message={buildProductMessage(product, settings.businessName, 1, settings.currency)}
               label={orderable ? 'Commander' : 'Nous informer'}
               variant={orderable ? 'whatsapp' : 'outline'}
               size="sm"
@@ -139,7 +141,7 @@ export function WhatsAppMiniLink({ product }: { product: PublicProduct }) {
   const { settings } = useSettings();
   return (
     <WhatsAppCta
-      message={buildProductMessage(product, settings.businessName)}
+      message={buildProductMessage(product, settings.businessName, 1, settings.currency)}
       label="Commander sur WhatsApp"
       variant="whatsapp"
       className="w-full"

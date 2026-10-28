@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import type { PublicProduct } from '@shared/types';
 import { formatPrice, STOCK_STATE_META } from '@shared/format';
 import { productEnquiryMessage, wholesaleWhatsAppMessage } from '@shared/whatsapp';
-import { imageVariant, orderedImages } from '@shared/images';
+import { productImageFallback, imageVariant, orderedImages } from '@shared/images';
 import { canEnquire, canOrder } from '@shared/stock';
 import { useApi } from '../lib/useApi';
 import { useSeo } from '../lib/seo';
@@ -100,6 +100,7 @@ export function ProductDetailPage() {
     reference: product.reference,
     quantity,
     url: typeof window !== 'undefined' ? window.location.href.split('?')[0] : null,
+    price,
     priceKnown: product.price !== null,
     details: detailParts.join('. '),
   });
@@ -110,6 +111,7 @@ export function ProductDetailPage() {
     reference: product.reference,
     quantity,
     url: typeof window !== 'undefined' ? window.location.href.split('?')[0] : null,
+    price,
     priceKnown: product.price !== null,
     details: `Je souhaite être informé(e) du retour en stock. ${detailParts.join('. ')}`,
   });
@@ -136,7 +138,7 @@ export function ProductDetailPage() {
         <div>
           <div className="relative overflow-hidden rounded-2xl border border-line bg-cream-200">
             {currentImage ? (
-              <img
+              <img onError={productImageFallback}
                 key={currentImage.id}
                 src={imageVariant(currentImage.path, 960)}
                 srcSet={`${imageVariant(currentImage.path, 480)} 480w, ${imageVariant(currentImage.path, 960)} 960w, ${imageVariant(currentImage.path, 1600)} 1600w`}
@@ -194,7 +196,7 @@ export function ProductDetailPage() {
                     aria-current={index === activeImage}
                     className={`block overflow-hidden rounded-xl border-2 transition-colors ${index === activeImage ? 'border-clay-500' : 'border-transparent hover:border-line'}`}
                   >
-                    <img
+                    <img onError={productImageFallback}
                       src={imageVariant(img.path, 480)}
                       alt=""
                       width={80}

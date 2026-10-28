@@ -28,3 +28,12 @@ export function orderedImages(images: ProductImage[] | undefined): ProductImage[
   const rest = images.filter((i) => i !== primary);
   return primary ? [primary, ...rest] : rest;
 }
+
+/** Stop retrying a broken srcset before displaying the local neutral placeholder. */
+export function productImageFallback(event: { currentTarget: { dataset: { fallback?: string }; removeAttribute: (name: string) => void; src: string } }): void {
+  const image = event.currentTarget;
+  if (image.dataset.fallback === 'true') return;
+  image.dataset.fallback = 'true';
+  image.removeAttribute('srcset');
+  image.src = '/images/product-unavailable.svg';
+}
