@@ -1,0 +1,92 @@
+{
+  "sheets-offwhite": {
+    "base": "mvqo811nb4b52db4e53b",
+    "alt": "Lit préparé avec une parure de draps claire, oreillers assortis",
+    "width": 640,
+    "height": 960
+  },
+  "sheets-white": {
+    "base": "mvqo81bx9f38201f2ffa",
+    "alt": "Draps de lit blancs sur un lit, vue rapprochée",
+    "width": 960,
+    "height": 640
+  },
+  "sheets-blue": {
+    "base": "mvqo81k1fde97c1fd852",
+    "alt": "Parure de lit à motif bleu et blanc",
+    "width": 960,
+    "height": 640
+  },
+  "pillows": {
+    "base": "mvqo81tqb7167e5c85c7",
+    "alt": "Oreillers et linge de lit clair",
+    "width": 960,
+    "height": 640
+  },
+  "bed-made": {
+    "base": "mvqo822220dce9e86e1e",
+    "alt": "Drap housse blanc sur un lit",
+    "width": 640,
+    "height": 960
+  },
+  "texture-white": {
+    "base": "mvqo82df6d5df17183f3",
+    "alt": "Texture de tissu de lit blanc",
+    "width": 720,
+    "height": 960
+  },
+  "texture-linen": {
+    "base": "mvqo82pn3ffcb1a65c81",
+    "alt": "Taie d’oreiller en tissu naturel",
+    "width": 640,
+    "height": 960
+  },
+  "duvet-white": {
+    "base": "mvqo831mf740819d8a59",
+    "alt": "Housse de couette blanche sur un lit",
+    "width": 720,
+    "height": 960
+  },
+  "duvet-linen": {
+    "base": "mvqo83dse31bd26f3b38",
+    "alt": "Parure de lit aux tons naturels dans une chambre",
+    "width": 640,
+    "height": 960
+  },
+  "sheets-sand": {
+    "base": "mvqo83wmc7db2f5b4891",
+    "alt": "Linge de lit aux tons sable",
+    "width": 640,
+    "height": 960
+  },
+  "bed-sunrise": {
+    "base": "mvqo847459974b180d9c",
+    "alt": "Lit préparé avec du linge de maison, lumière du matin",
+    "width": 639,
+    "height": 960
+  },
+  "linen-room": {
+    "base": "mvqo84he596e5c81562c",
+    "alt": "Chambre avec linge de lit clair et lumière naturelle",
+    "width": 639,
+    "height": 960
+  },
+  "curtain-linen": {
+    "base": "mvqo84sw8277aa03e8d3",
+    "alt": "Rideaux clairs devant une fenêtre",
+    "width": 640,
+    "height": 960
+  },
+  "curtain-sun": {
+    "base": "mvqo852a9f88458cb97d",
+    "alt": "Rideaux filtrant la lumière du soleil",
+    "width": 960,
+    "height": 640
+  },
+  "curtain-drape": {
+    "base": "mvqo85bt4058c0d8c62d",
+    "alt": "Tissu de rideau plissé aux tons naturels",
+    "width": 960,
+    "height": 640
+  }
+}

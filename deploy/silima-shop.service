@@ -1,0 +1,26 @@
+[Unit]
+Description=Silima Shop (catalogue draps Jimmy + commandes WhatsApp)
+After=network.target
+
+[Service]
+Type=simple
+User=silima
+Group=silima
+WorkingDirectory=/var/www/silima/app
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=3000
+ExecStart=/usr/bin/node dist-server/server/index.js
+Restart=always
+RestartSec=5
+# Durcissement
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=/var/www/silima/app/data
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
