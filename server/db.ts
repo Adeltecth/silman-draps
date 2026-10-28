@@ -148,7 +148,7 @@ export function migrate(): void {
 export const DEFAULT_SETTINGS: Record<string, string> = {
   business_name: 'Silima Shop',
   logo_url: '',
-  whatsapp_number: '',
+  whatsapp_number: '2250788880307',
   phone: '',
   email: '',
   location: "Adjamé, Abidjan — Côte d'Ivoire",

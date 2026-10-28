@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import type { AdminCategory, AdminProduct } from '@shared/types';
 import { formatPrice, STOCK_STATE_META } from '@shared/format';
-import { imageVariant, primaryImage } from '@shared/images';
+import { productImageFallback, imageVariant, primaryImage } from '@shared/images';
 import { adminApi } from '../lib/api';
 import { useApi } from '../lib/useApi';
 import { useSettings } from '../lib/settings';
@@ -189,7 +189,7 @@ export function ProductsList() {
                   <div className="flex gap-3">
                     <div className="h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-cream-200">
                       {image ? (
-                        <img src={imageVariant(image.path, 480)} alt="" className="h-full w-full object-cover" width={64} height={80} />
+                        <img onError={productImageFallback} src={imageVariant(image.path, 480)} alt="" className="h-full w-full object-cover" width={64} height={80} />
                       ) : (
                         <div className="flex h-full items-center justify-center text-[0.6rem] text-ink-500">Sans photo</div>
                       )}
@@ -249,7 +249,7 @@ export function ProductsList() {
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <div className="h-14 w-11 shrink-0 overflow-hidden rounded-md bg-cream-200">
-                            {image ? <img src={imageVariant(image.path, 480)} alt="" className="h-full w-full object-cover" width={44} height={56} /> : null}
+                            {image ? <img onError={productImageFallback} src={imageVariant(image.path, 480)} alt="" className="h-full w-full object-cover" width={44} height={56} /> : null}
                           </div>
                           <div className="min-w-0">
                             <p className="truncate font-medium text-ink">{product.name}</p>

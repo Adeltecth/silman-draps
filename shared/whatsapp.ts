@@ -1,5 +1,10 @@
 import type { PublicSettings, StockState } from './types';
 
+export const OFFICIAL_WHATSAPP_NUMBER = '2250788880307';
+export function shopWhatsAppLink(message: string): string {
+  return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
 /**
  * Construit un lien WhatsApp (wa.me) à partir d'un numéro au format international.
  * La validation est volontairement stricte : aucun lien cassé ne doit être généré.
@@ -28,16 +33,23 @@ export interface WhatsAppProductContext {
   quantity?: number | null;
   url?: string | null;
   priceKnown: boolean;
+  price?: string | null;
   details?: string | null;
 }
 
 export function productEnquiryMessage(ctx: WhatsAppProductContext): string {
-  const ref = ctx.reference ? ` (référence ${ctx.reference})` : '';
-  const qty = ctx.quantity && ctx.quantity > 0 ? ` Quantité souhaitée : ${ctx.quantity}.` : '';
-  const price = ctx.priceKnown ? '' : ' Pouvez-vous me confirmer le prix et la disponibilité ?';
-  const details = ctx.details ? ` ${ctx.details}.` : '';
-  const link = ctx.url ? `\nProduit : ${ctx.url}` : '';
-  return `Bonjour ${ctx.businessName}, je souhaite commander ou obtenir des informations sur le produit « ${ctx.productName} »${ref}.${qty}${details}${price}${link}`;
+  return [
+    `Bonjour ${ctx.businessName} ! Je souhaite commander ce produit.`,
+    '',
+    `Produit : ${ctx.productName}`,
+    `Prix : ${ctx.price || 'Prix sur demande'}`,
+    ctx.reference ? `Référence : ${ctx.reference}` : '',
+    ctx.details ? `Design/Taille : ${ctx.details}` : '',
+    ctx.quantity && ctx.quantity > 0 ? `Quantité : ${ctx.quantity}` : '',
+    '',
+    'Pouvez-vous confirmer sa disponibilité ?',
+    ctx.url || '',
+  ].filter((line, index) => line || index === 1).join('\n');
 }
 
 export function wholesaleWhatsAppMessage(businessName: string, productLabel?: string | null, quantity?: number | null): string {
@@ -56,8 +68,7 @@ export function enquiryWhatsAppMessage(businessName: string, name: string, messa
 }
 
 export function whatsappHrefForSettings(settings: Pick<PublicSettings, 'whatsappNumber'> | null | undefined, message: string): string | null {
-  if (!settings) return null;
-  return buildWhatsAppLink(settings.whatsappNumber, message);
+  return shopWhatsAppLink(message);
 }
 
 /** Libellés publics des états de stock. */

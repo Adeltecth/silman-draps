@@ -1,9 +1,6 @@
-import { useState, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
-import { buildWhatsAppLink } from '@shared/whatsapp';
-import { useSettings } from '../lib/settings';
+import { type ReactNode } from 'react';
+import { shopWhatsAppLink } from '@shared/whatsapp';
 import { WhatsAppIcon } from './icons';
-import { Alert } from './ui';
 
 type Variant = 'whatsapp' | 'primary' | 'outline' | 'ghost';
 type Size = 'md' | 'sm';
@@ -28,11 +25,7 @@ interface WhatsAppCtaProps {
   testId?: string;
 }
 
-/**
- * Bouton WhatsApp centralisé :
- * - lien wa.me généré et validé uniquement si le numéro est configuré ;
- * - jamais de lien cassé : un message d'aide est affiché à la place.
- */
+/** Lien natif vers le numéro officiel, indépendant du chargement de l’API. */
 export function WhatsAppCta({
   message,
   label,
@@ -44,68 +37,22 @@ export function WhatsAppCta({
   ariaLabel,
   testId = 'whatsapp-cta',
 }: WhatsAppCtaProps) {
-  const { settings } = useSettings();
-  const href = buildWhatsAppLink(settings.whatsappNumber, message);
-  const [showNotice, setShowNotice] = useState(false);
+  const href = shopWhatsAppLink(message);
   const sizes = size === 'sm' ? 'btn-sm' : '';
   const linkClasses = `${variantClass[variant]} ${sizes} ${className} ${buttonClassName}`;
-  const fallbackClasses = `${variantClass[variant]} ${sizes} ${buttonClassName} w-full`;
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={linkClasses}
-        aria-label={ariaLabel}
-        data-testid={testId}
-      >
-        {icon && <WhatsAppIcon size={19} />}
-        <span>{label}</span>
-      </a>
-    );
-  }
 
   return (
-    <div className={className}>
-      <button
-        type="button"
-        className={fallbackClasses}
-        onClick={() => setShowNotice((v) => !v)}
-        aria-expanded={showNotice}
-        aria-describedby={showNotice ? 'whatsapp-config-notice' : undefined}
-        aria-label={ariaLabel}
-        data-testid={testId}
-      >
-        {icon && <WhatsAppIcon size={19} />}
-        <span>{label}</span>
-      </button>
-      {showNotice && (
-        <Alert tone="info" className="mt-3 text-left" >
-          <p id="whatsapp-config-notice" className="leading-relaxed">
-            {settings.demoMode ? (
-              <>
-                Le numéro WhatsApp de la boutique n’est pas encore configuré. Ajoutez-le dans{' '}
-                <Link to="/admin/parametres" className="link-underline font-medium">
-                  Administration → Paramètres
-                </Link>{' '}
-                pour activer les commandes WhatsApp.
-              </>
-            ) : (
-              <>
-                Le contact WhatsApp est momentanément indisponible. Merci de nous appeler
-                {settings.phone ? ` au ${settings.phone}` : ''} ou d’utiliser le{' '}
-                <Link to="/contact" className="link-underline font-medium">
-                  formulaire de contact
-                </Link>
-                .
-              </>
-            )}
-          </p>
-        </Alert>
-      )}
-    </div>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={linkClasses}
+      aria-label={ariaLabel}
+      data-testid={testId}
+    >
+      {icon && <WhatsAppIcon size={19} />}
+      <span>{label}</span>
+    </a>
   );
 }
 

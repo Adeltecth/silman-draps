@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { generalWhatsAppMessage, normaliseWhatsAppNumber } from '@shared/whatsapp';
+import { generalWhatsAppMessage } from '@shared/whatsapp';
 import { useSettings } from '../lib/settings';
 import { LogoMark, MenuIcon, CloseIcon, WhatsAppIcon } from './icons';
 import { WhatsAppCta } from './whatsapp';
@@ -150,8 +150,6 @@ export function SiteHeader() {
 
 export function FloatingWhatsApp() {
   const { settings } = useSettings();
-  // Pas de bouton flottant si le numéro n'est pas configuré : le CTA d'en-tête affiche l'aide nécessaire.
-  if (!normaliseWhatsAppNumber(settings.whatsappNumber).ok) return null;
   return (
     <div className="pointer-events-none fixed bottom-6 right-6 z-30 hidden lg:block">
       <div className="pointer-events-auto">
